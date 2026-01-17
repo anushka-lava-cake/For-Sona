@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Sonagurl's companion</title>
+<title>Open When 💌</title>
+
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+    font-family: Georgia, serif;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#f5f2ed;
+    padding:20px;
+}
+
+.cat-gallery {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.cat-gallery img {
+    width: 100%;
+    border-radius: 12px;
+}
+
+.spotify-btn {
+    display: inline-block;
+    margin-top: 20px;
+    background: #1db954;
+    color: white;
+    padding: 12px 22px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+
+body::before {
+    content:'';
+    position:fixed;
+    inset:0;
+    background:url('background.png') center/cover no-repeat;
+    z-index:-1;
+}
+
+.container {
+    text-align:center;
+    padding:40px;
+    max-width:600px;
+    width:100%;
+    background:rgba(255,255,255,0.85);
+    border-radius:20px;
+    backdrop-filter:blur(10px);
+}
+
+h1 { font-size:2.5rem; color:#6b8e6b; }
+.subtitle { font-size:2rem; margin:30px 0; }
+.title {
+    font-size: 2.6rem;
+    line-height: 1.25;
+    margin-bottom: 25px;
+}
+
+.title-soft {
+    color: #E6A6B4;          /* soft sage green */
+    font-weight: 500;
+    font-style: italic;
+}
+
+.title-bold {
+    color: #5f7f5f;          /* deeper green */
+    font-weight: 700;
+}
+
+
+.buttons-container {
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+    align-items:center;
+}
+
+.button {
+    width:100%;
+    max-width:350px;
+    padding:18px 30px;
+    background:#d4e8d4;
+    color:#5a7a5a;
+    border:none;
+    border-radius:12px;
+    font-size:1.1rem;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.small-btn {
+    margin-top:10px;
+    background:#f2d9e6;
+    color:#6b3a5a;
+    font-size:0.95rem;
+    padding:10px 18px;
+    border-radius:18px;
+}
+
+.footer {
+    margin-top:40px;
+    font-style:italic;
+    color:#8ba88b;
+}
+
+/* ---------- Modal ---------- */
+
+.modal {
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.6);
+    z-index:1000;
+}
+
+.modal-content {
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    background:#fdfcf9;
+    padding:35px;
+    border-radius:20px;
+    max-width:450px;
+    width:90%;
+    max-height:80vh;
+    overflow-y:auto;
+}
+
+.modal-title {
+    font-size:1.7rem;
+    color:#6b8e6b;
+    margin-bottom:20px;
+    text-align:center;
+}
+
+.modal-message {
+    font-size:1.1rem;
+    line-height:1.8;
+    text-align:center;
+}
+
+.close-btn {
+    margin-top:25px;
+    background:#b8d4b8;
+    color:white;
+    border:none;
+    padding:10px 25px;
+    border-radius:8px;
+    font-weight:bold;
+}
+.cat-reaction {
+    max-width: 180px;
+    border-radius: 15px;
+    margin: 15px auto;
+    display: block;
+}
+.europe-checklist {
+    text-align: left;
+    background: #fde6f1;
+    padding: 15px;
+    border-radius: 15px;
+}
+
+.europe-checklist label {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.europe-input {
+    width: 100%;
+    padding: 8px;
+    border-radius: 10px;
+    border: none;
+    margin-bottom: 10px;
+}
+
+.add-europe-btn {
+    background: #f3b6d8;
+    color: #6b2f4a;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 12px;
+}
+
+/* ---------- Landing ---------- */
+
+.plane {
+    font-size:2.5rem;
+    margin-bottom:20px;
+    animation: shake 1.5s infinite;
+}
+
+@keyframes shake {
+    0% { transform:translateX(0); }
+    25% { transform:translateX(-3px); }
+    50% { transform:translateX(3px); }
+    75% { transform:translateX(-3px); }
+    100% { transform:translateX(0); }
+}
+
+.weather-card {
+    margin-top:25px;
+    padding:20px;
+    background:#eef6ee;
+    border-radius:15px;
+    text-align:left;
+}
+
+.weather-final {
+    margin-top:15px;
+    font-style:italic;
+    text-align:center;
+    color:#5a7a5a;
+}
+.kiss-banner {
+    background: #f5dce6;
+    color: #6b2f4a;
+    padding: 10px 18px;
+    border-radius: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    display: inline-block;
+}
+
+/* ---------- Surprise ---------- */
+
+.surprise-btn {
+    margin-top:20px;
+    background:#f3d6e8;
+    color:#7a4a6a;
+    border:none;
+    padding:10px 22px;
+    border-radius:20px;
+    font-weight:bold;
+}
+
+.surprise {
+    display:none;
+    margin-top:20px;
+}
+
+.surprise img {
+    max-width:100%;
+    border-radius:15px;
+}
+
+.surprise-caption {
+    margin-top:10px;
+    font-style:italic;
+    color:#6b4a5a;
+}
+
+/* ---------- Kiss ---------- */
+
+.predict-btn {
+    margin-top:20px;
+    background:#e8cfe1;
+    color:#6b3a5a;
+    border:none;
+    padding:10px 22px;
+    border-radius:20px;
+    font-weight:bold;
+}
+
+.choice-btn {
+    margin:10px 5px;
+    background:#f1d9c8;
+    color:#6a4a3a;
+    border:none;
+    padding:10px 18px;
+    border-radius:18px;
+    font-weight:bold;
+}
+
+/* ---------- Checklist ---------- */
+
+.checklist { text-align:left; }
+.checklist label { display:block; margin-bottom:10px; }
+
+.kiss-mask {
+    max-width: 150px;
+    margin: 10px auto 20px auto;
+    display: block;
+}
+
+.declare-btn {
+    margin-top: 20px;
+    background: #f3c1d9;
+    color: #6b2f4a;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+.capsule-img {
+    max-width: 180px;
+    margin: 20px auto;
+    display: block;
+}
+
+.capsule-textarea {
+    width: 100%;
+    height: 120px;
+    border-radius: 12px;
+    padding: 12px;
+    font-family: Georgia, serif;
+    font-size: 1rem;
+}
+
+.capsule-btn {
+    margin-top: 15px;
+    background: #d8c6e8;
+    color: #4b3a6b;
+    border: none;
+    padding: 12px 22px;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+@keyframes capsuleShake {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(1deg); }
+    50% { transform: rotate(-1deg); }
+    75% { transform: rotate(1deg); }
+    100% { transform: rotate(0deg); }
+}
+
+.capsule-locked {
+    animation: capsuleShake 0.6s ease-in-out;
+}
+
+
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1 class="title">
+  <span class="title-soft">Sonagurl's little companion</span><br>
+  <span class="title-bold">Open When...</span>
+</h1>
+
+    <div class="subtitle">💌</div>
+
+    <div class="buttons-container">
+        <button class="button" onclick="openLanding()">When you land ✈️</button>
+
+        <button class="button"
+            onclick="openUnpack()">
+            Before your first day at college🏠
+        </button>
+
+        <button class="button"
+         onclick="openMessage('When you are sad 💔', 'Stfu. You are in Sweden while I am STILL stuck on this stupid campus. You are not allowed to be sad.')">
+         When you are sad 💔
+         </button>
+
+
+        <button class="button"
+            onclick="openSadOptions()">
+            When you are homesick 💔
+        </button>
+
+        <button class="button" onclick="openKissPrediction()">
+            When you have kissed your first gora pakora 😳
+        </button>
+
+        <button class="button small-btn" onclick="openChecklist()">
+            Kiss checklist 💋
+        </button>
+    </div>
+
+    <button class="button small-btn" onclick="openEuropeChecklist()">
+    Sonakshi’s Europe checklist 🗺️💗
+    </button>
+
+
+    <div class="footer">Made by the love of your life 🩷</div>
+</div>
+
+<div id="modal" class="modal" onclick="closeModal()">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <h2 id="modal-title" class="modal-title"></h2>
+    <div id="modal-message" class="modal-message"></div>
+    <button class="close-btn" onclick="closeModal()">Woooww Anushka you are amazeballs ily so much</button>
+  </div>
+</div>
+
+<script>
+
+const CAPSULE_UNLOCK_DATE = new Date("2026-06-01");
+function daysUntilUnlock() {
+    const now = new Date();
+    const diff = CAPSULE_UNLOCK_DATE - now;
+    return Math.ceil(diff / (1000 * 60 * 60 * 24));
+}
+function getTodayDate() {
+    const d = new Date();
+    return d.toLocaleDateString(undefined, {
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+    });
+}
+
+
+function openModal() {
+    document.getElementById("modal").style.display = "block";
+    document.body.style.overflow = "hidden";
+}
+
+function closeModal() {
+    document.getElementById("modal").style.display = "none";
+    document.body.style.overflow = "auto";
+}
+
+function openMessage(title, message) {
+    document.getElementById("modal-title").textContent = title;
+    document.getElementById("modal-message").textContent = message;
+    openModal();
+}
+
+//WHEN SAD
+function openSadOptions() {
+    document.getElementById("modal-title").textContent = "I'm here 💗";
+
+    document.getElementById("modal-message").innerHTML = `
+        <p>
+            Pick your comfort babydoll:
+        </p>
+
+        <button class="choice-btn" onclick="openCats()">Numero Uno</button>
+        <button class="choice-btn" onclick="openSpotify()">Numero Dos</button>
+    `;
+
+    openModal();
+}
+function openCats() {
+    document.getElementById("modal-title").textContent = "Emergency cats 🐾";
+
+    document.getElementById("modal-message").innerHTML = `
+        <p>Prescribed by a very serious doctor.</p>
+
+        <div class="cat-gallery">
+            <img src="cats/cat1.jpg">
+            <img src="cats/cat2.jpg">
+            <img src="cats/cat3.jpg">
+            <img src="cats/cat4.jpg">
+            <img src="cats/cat5.jpg">
+            <img src="cats/cat6.jpg">
+        </div>
+    `;
+}
+function openSpotify() {
+    document.getElementById("modal-title").textContent = "Dramatic Walk Time 🎧";
+
+    document.getElementById("modal-message").innerHTML = `
+        <p>
+            Put on your headphones.<br>
+            Here are some songs that remind me of you and our time in Goa.
+        </p>
+
+        <a href="https://open.spotify.com/playlist/4ycFcddrba76I8e4qza0gi?si=fbf26b55cf3f412e" target="_blank" class="spotify-btn">
+            Open playlist on Spotify 💚
+        </a>
+    `;
+}
+
+
+
+/* ✈️ LANDING — FULL VERSION */
+function openLanding() {
+    document.getElementById("modal-title").textContent = "You made it ✈️";
+
+    document.getElementById("modal-message").innerHTML = `
+        <div class="plane">✈️</div>
+
+        <p>You made it bbg<br>Take a breath.</p>
+
+        <div class="weather-card">
+            <p>📍 Location: Sweden 🇸🇪</p>
+            <p>🌡 Temperature: Cold as fuck</p>
+            <p>🧠 Anxiety: Normal (so far)</p>
+            <p>💓 Josh: High sir!!</p>
+            <p>🫂 You: Still warm, ready to razzle dazzle the gora pakoras</p>
+            <div class="weather-final">It's finally happening!!!!</div>
+        </div>
+
+        <button class="surprise-btn" onclick="toggleSurprise()">🎁 Surprise</button>
+
+        <div id="surprise" class="surprise">
+            <img src="childhood1.png">
+            <div class="surprise-caption">
+                Ready to take over Sweden!! 🇸🇪✨
+            </div>
+        </div>
+    `;
+    openModal();
+}
+function openUnpack() {
+    document.getElementById("modal-title").textContent =
+        "First night 🏠";
+
+    // Check if capsule already exists
+    if (localStorage.getItem("timeCapsuleText")) {
+        showCapsuleSealed();
+        openModal();
+        return;
+    }
+
+    // If no capsule yet, show writing UI
+    document.getElementById("modal-message").innerHTML = `
+        <p>
+            Leave something for your future self: your hopes for what will happen in the next few months, how you think you will change.<br>
+            You’ll only be able to read this after the semester ends, btw. So put something smart and heartfelt in there, so that you can read it later and hopefully cry.
+
+        </p>
+
+        <textarea
+            id="capsuleText"
+            class="capsule-textarea"
+            placeholder="Write to future you..."
+        ></textarea>
+
+        <button class="capsule-btn" onclick="sealCapsule()">
+            Submit & Seal capsule
+        </button>
+    `;
+
+    openModal();
+}
+
+
+function sealCapsule() {
+    const text = document.getElementById("capsuleText").value.trim();
+    if (!text) return alert("Write something first 💌");
+
+    localStorage.setItem("timeCapsuleText", text);
+    localStorage.setItem("timeCapsuleDate", new Date().toISOString());
+
+    showCapsuleSealed();
+    openModal();
+}
+function showCapsuleSealed() {
+    document.getElementById("modal-message").innerHTML = `
+    <img src="time_capsule.png"
+         id="capsuleImage"
+         class="capsule-img">
+
+    <p>
+        This is sealed.<br>
+        You can open it when the semester ends.
+    </p>
+
+    <p style="opacity:0.7; font-size:0.95rem;">
+        Opens in ${daysUntilUnlock()} days ⏳
+    </p>
+
+    <button class="capsule-btn" onclick="tryOpenCapsule()">
+        Try to open
+    </button>
+`;
+
+}
+function tryOpenCapsule() {
+    const now = new Date();
+
+    if (now < CAPSULE_UNLOCK_DATE) {
+        const capsule = document.getElementById("capsuleImage");
+
+        capsule.classList.add("capsule-locked");
+
+        setTimeout(() => {
+            capsule.classList.remove("capsule-locked");
+        }, 600);
+
+        alert("Not yet. Live it first 🌱");
+        return;
+    }
+
+    const text = localStorage.getItem("timeCapsuleText");
+
+    document.getElementById("modal-message").innerHTML = `
+        <p><strong>You wrote:</strong></p>
+        <p>${text.replace(/\n/g, "<br>")}</p>
+    `;
+}
+
+
+
+function toggleSurprise() {
+    const s = document.getElementById("surprise");
+    s.style.display = s.style.display === "block" ? "none" : "block";
+}
+
+/* 😳 KISS PREDICTION */
+function openKissPrediction() {
+
+    const savedDate = localStorage.getItem("firstKissDate");
+
+    if (savedDate) {
+        document.getElementById("modal-title").textContent = "First kiss thoughts 😳";
+
+        document.getElementById("modal-message").innerHTML = `
+            <div class="kiss-banner">
+                💋 First kiss recorded on ${savedDate}
+            </div>
+
+            <p>
+                Historical event.<br>
+                Life changed forever.
+            </p>
+        `;
+
+        openModal();
+        return;
+    }
+
+    // existing prediction UI
+    document.getElementById("modal-title").textContent =
+        "First kiss thoughts 😳";
+
+    document.getElementById("modal-message").innerHTML = `
+        <p>Here is my prediction about the guy:</p>
+        <button class="predict-btn" onclick="revealPrediction()">Predict 🔮</button>
+    `;
+
+    openModal();
+
+}
+
+function revealPrediction() {
+    document.getElementById("modal-message").innerHTML = `
+        <p>
+        Tall.<br>
+        White.<br>
+        Black hair.<br>
+        Thin and <strong>NOT muscular</strong>.<br>
+        Wears joggers and sweatshirts exclusively.
+        </p>
+
+        <button class="choice-btn" onclick="kissYes()">
+    Yes of course you are right like you always are
+</button>
+
+<button class="choice-btn" onclick="kissNo()">
+    No you are wrong for the first time ever
+</button>
+
+    `;
+}
+
+/* 💋 CHECKLIST */
+function openChecklist() {
+    document.getElementById("modal-title").textContent =
+        "Kiss checklist 💋";
+
+    document.getElementById("modal-message").innerHTML = `
+        <img src="kiss_mask.png" class="kiss-mask">
+
+        <p>
+            Before you get to open this,<br>
+            you need to accept this declaration:
+        </p>
+
+        <button class="declare-btn" onclick="showChecklist()">
+            I am a nasty, nasty girl and a slut.
+        </button>
+    `;
+
+    openModal();
+
+}
+ 
+function showChecklist() {
+    document.getElementById("modal-message").innerHTML = `
+        <div class="checklist">
+            <label>
+                <input type="checkbox" onchange="saveCheck(this)" data-key="butterflies">
+                Asian but like ASIAN asian
+            </label>
+            <label>
+                <input type="checkbox" onchange="saveCheck(this)" data-key="smiling">
+                Not black-haired
+            </label>
+            <label>
+                <input type="checkbox" onchange="saveCheck(this)" data-key="replaying">
+                An actual European (not a silly American)
+            </label>
+            <label>
+                <input type="checkbox" onchange="saveCheck(this)" data-key="overthinking">
+                Had tattoos
+            </label>
+            <label>
+                <input type="checkbox" onchange="saveCheck(this)" data-key="pretending">
+                A girl (yes. you are gay like that.)
+            </label>
+        </div>
+    `;
+
+    restoreChecks();
+}
+function saveCheck(box) {
+    localStorage.setItem(box.dataset.key, box.checked);
+}
+
+function restoreChecks() {
+    document
+        .querySelectorAll('.checklist input[type="checkbox"]')
+        .forEach(box => {
+            box.checked = localStorage.getItem(box.dataset.key) === "true";
+        });
+}
+
+function kissYes() {
+    localStorage.setItem("firstKissDate", getTodayDate());
+
+    document.getElementById("modal-message").innerHTML = `
+    <div class="kiss-banner">
+        💋 First kiss recorded on ${getTodayDate()}
+    </div>
+
+    <img src="cats/happy_cat.png" class="cat-reaction">
+
+    <p>
+        Obviously I was right 🙄<br>
+    </p>
+`;
+}
+function kissNo() {
+    localStorage.setItem("firstKissDate", getTodayDate());
+    document.getElementById("modal-message").innerHTML = `
+    <div class="kiss-banner">
+        💋 First kiss recorded on ${getTodayDate()}
+    </div>
+
+    <img src="cats/sad_cat.png" class="cat-reaction">
+
+    <p>
+        Wow.<br>
+        Betrayal.<br>
+    </p>
+`;
+
+}
+function openEuropeChecklist() {
+    document.getElementById("modal-title").textContent =
+        "Sonakshi’s Europe checklist 💕";
+
+    document.getElementById("modal-message").innerHTML = `
+        <input class="europe-input" id="europeInput" placeholder="Add to your to-do list: ">
+        <button class="add-europe-btn" onclick="addEuropeItem()">Add</button>
+
+        <div class="europe-checklist" id="europeChecklist"></div>
+    `;
+
+    loadEuropeChecklist();
+    openModal();
+}
+function addEuropeItem() {
+    const input = document.getElementById("europeInput");
+    const text = input.value.trim();
+    if (!text) return;
+
+    const items = getEuropeItems();
+    items.push({ text, done: false });
+
+    localStorage.setItem("europeChecklist", JSON.stringify(items));
+    input.value = "";
+    loadEuropeChecklist();
+}
+
+function toggleEuropeItem(index) {
+    const items = getEuropeItems();
+    items[index].done = !items[index].done;
+    localStorage.setItem("europeChecklist", JSON.stringify(items));
+    loadEuropeChecklist();
+}
+
+function getEuropeItems() {
+    return JSON.parse(localStorage.getItem("europeChecklist") || "[]");
+}
+
+function loadEuropeChecklist() {
+    const container = document.getElementById("europeChecklist");
+    const items = getEuropeItems();
+
+    container.innerHTML = items.map((item, i) => `
+        <label>
+            <input type="checkbox" ${item.done ? "checked" : ""} 
+                   onchange="toggleEuropeItem(${i})">
+            ${item.text}
+        </label>
+    `).join("");
+}
+
+
+</script>
+
+</body>
+</html>
